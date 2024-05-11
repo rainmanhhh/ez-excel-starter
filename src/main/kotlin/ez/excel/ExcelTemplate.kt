@@ -1,28 +1,31 @@
 package ez.excel
 
-import org.jxls.common.Context
-import org.jxls.util.JxlsHelper
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileInputStream
-import java.io.InputStream
-import java.io.OutputStream
+import org.jxls.builder.JxlsOutput
+import org.jxls.builder.JxlsTemplateFillerBuilder
+import java.io.*
 
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 class ExcelTemplate(
   private val templateStreamProvider: () -> InputStream
 ) {
-  constructor(templateFile: File): this({
+  constructor(templateFile: File) : this({
     // not necessary to use BufferedInputStream because transformer already use it
     FileInputStream(templateFile)
   })
 
-  fun export(context: Context): ByteArray {
+  fun export(map: Map<String, Any?>): ByteArray {
     val os = ByteArrayOutputStream()
-    export(context, os)
+    export(map) { os }
     return os.toByteArray()
   }
 
-  fun export(context: Context, outputStream: OutputStream) {
-    JxlsHelper.getInstance().processTemplate(templateStreamProvider(),outputStream, context)
+  fun export(map: Map<String, Any?>, output: JxlsOutput) {
+    JxlsTemplateFillerBuilder.newInstance()
+      .withTemplate(templateStreamProvider())
+      .build()
+      .fill(map, output)
   }
+
+  fun export(map: Map<String, Any?>, output: () -> OutputStream) =
+    export(map, JxlsOutput { output() })
 }
