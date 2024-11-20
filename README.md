@@ -43,7 +43,7 @@ class FooService(
   fun export(listItems: List<String>): ByteArray =
     excelHelper.useTemplate("myTemplate.xlsx").export(Context().apply {
       putVar("list", listItems)
-      putVar("pageBottom", 1)
+      putVar("pageNo", 1)
     })
 }
 
