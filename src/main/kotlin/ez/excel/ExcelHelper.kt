@@ -2,6 +2,7 @@ package ez.excel
 
 import java.io.File
 
+@Suppress("unused")
 class ExcelHelper(
   private val templateRoot: String
 ) {
