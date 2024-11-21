@@ -11,7 +11,7 @@ excel模板所在目录，由spring配置属性`ez.excel.template-root`控制，
 
 ### 定义模板
 
-假设模板文件为`/home/java/foo-app/excelTemplate/myTemplate.xlsx`，内容如下（第一行和第一列是excel文件自带的表头，不属于表格内容）：
+假设模板文件为`/home/java/foo-app/excelTemplate/myTemplate.xlsx`，内容如下（第一行和第一列是excel文件自带的标题行和标题列，不属于表格内容）：
 
 | - | A            | B            |
 |---|--------------|--------------|
@@ -19,7 +19,7 @@ excel模板所在目录，由spring配置属性`ez.excel.template-root`控制，
 | 2 | ${row.name}  | ${row.phone} |
 | 3 | 页码：${pageNo} |              |
 
-- A1格的批注为：`jx:area(lastCell="B2")`，表示模板中需要代码替换的部分从左上角A1格开始，到右下的B2格结束，表格的其他部分会保持原样
+- A1格的批注为：`jx:area(lastCell="B3")`，表示模板中需要代码替换的部分从左上角A1格开始，到右下的B3格结束，表格的其他部分会保持原样（其他的jx:*指令只允许定义在jx:area的范围内）
 - A2格的批注为：`jx:each(items="list" var="row" lastCell="B2")`，这将为模板定义一个名为`list`
   的列表变量（代码中可以为此变量注入一个`List<String>`类型的值），
   同时还定义了一个在模板内部使用的变量`row`，用于从`list`列表的元素中取值
